@@ -32,8 +32,12 @@
  */
 function local_bbb_extend_navigation(global_navigation $navigation): void {
     global $PAGE;
+    $system_context = context_system::instance();
 
-    if ($PAGE->url->compare(new moodle_url('/mod/bigbluebuttonbn/view.php'), URL_MATCH_BASE)) {
+    if (
+        $PAGE->url->compare(new moodle_url('/mod/bigbluebuttonbn/view.php'), URL_MATCH_BASE) &&
+        has_capability('local/bbb:view_dashboard', $system_context)
+    ) {
         $PAGE->requires->strings_for_js(['open_dashboard'], 'local_bbb');
         $PAGE->requires->js_call_amd('local_bbb/recordings', 'init');
     }
